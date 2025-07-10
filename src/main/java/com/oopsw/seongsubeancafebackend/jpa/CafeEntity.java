@@ -1,4 +1,4 @@
-package com.oopsw.seongsubeancafebackend.JPA;
+package com.oopsw.seongsubeancafebackend.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

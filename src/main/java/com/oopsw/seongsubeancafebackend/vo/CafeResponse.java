@@ -1,4 +1,4 @@
-package com.oopsw.seongsubeancafebackend.VO;
+package com.oopsw.seongsubeancafebackend.vo;
 
 import lombok.Data;
 
