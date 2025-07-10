@@ -1,6 +1,5 @@
-package com.oopsw.seongsubeancafebackend.dto;
+package com.oopsw.seongsubeancafebackend.vo;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,13 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CafeDTO {
-  private Long cafeId;
-  private String email;
-  private String nickName;
+public class RequestCafe {
   private String cafeName;
   private String businessLicense;
-  private LocalDateTime registerDate;
   private String zipCode;
   private String cafeAddress;
   private String cafeDetailAddress;
@@ -25,6 +20,7 @@ public class CafeDTO {
   private String image;
   private Boolean isBusinessDay;
   private String operationTimeText;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+
+  private String email;
+  private String nickName;
 }

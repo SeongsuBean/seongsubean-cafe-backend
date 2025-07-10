@@ -3,7 +3,7 @@ package com.oopsw.seongsubeancafebackend.vo;
 import lombok.Data;
 
 @Data
-public class CafeResponse {
+public class ResponseCafe {
 private String address;
 private String phoneNumber;
 private String introduction;
