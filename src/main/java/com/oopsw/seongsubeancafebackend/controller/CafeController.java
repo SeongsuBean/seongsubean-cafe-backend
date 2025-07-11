@@ -44,6 +44,11 @@ public class CafeController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
   }
 
-
+  @GetMapping("/{cafeId}")
+  public ResponseEntity<ResponseCafe> getCafeById(@PathVariable("cafeId") Long registerCafeId) {
+    CafeDTO cafeDTO = cafeService.getCafeById(registerCafeId);
+    ResponseCafe result = new ModelMapper().map(cafeDTO, ResponseCafe.class);
+    return ResponseEntity.ok(result);
+  }
 
 }
