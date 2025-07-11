@@ -25,7 +25,7 @@ public class CafeController {
 
   //Vaild
   @PostMapping()
-  public ResponseEntity<Map<String, Long>> addCafe(@RequestBody RequestCafe requestCafe) {
+  public ResponseEntity<Map<String, Long>> createCafe(@RequestBody RequestCafe requestCafe) {
     CafeDTO cafeDTO = new ModelMapper().map(requestCafe, CafeDTO.class);
     Long resultCafeId = cafeService.createCafe(cafeDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
@@ -36,5 +36,14 @@ public class CafeController {
     Long approvedCafeId = cafeService.approveCafe(registerCafeId);
     return ResponseEntity.ok(Map.of("approvedCafeId", approvedCafeId));
   }
+
+  @PostMapping("/admin")
+  public ResponseEntity<Map<String, Long>> createCafeAdmin(@RequestBody RegisterCafe registerCafe) {
+    CafeDTO cafeDTO = new ModelMapper().map(registerCafe, CafeDTO.class);
+    Long resultCafeId = cafeService.createCafeAdmin(cafeDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
+  }
+
+
 
 }
