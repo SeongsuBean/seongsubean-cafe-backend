@@ -8,8 +8,7 @@ import java.util.List;
 public interface CafeService {
   Long createCafe(CafeDTO cafeDTO);
   Long approveCafe(Long registerCafeId);
-
   Long createCafeAdmin(CafeDTO cafeDTO);
   CafeDTO getCafeById(Long cafeId);
-
+  List<ResponseCafe> searchCafes(String keyword);
 }

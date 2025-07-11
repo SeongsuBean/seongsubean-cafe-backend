@@ -8,6 +8,7 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -102,7 +103,7 @@ public class CafeRepositoryTests {
 
   @Test
   @Order(5)
-  public void findCafeById_ExistingId_ReturnsEntity() {
+  public void findCafeById_ExistingId_Success() {
     // given
     CafeEntity saved = cafeRepository.save(CafeEntity.builder()
             .cafeName("카페")
@@ -133,5 +134,39 @@ public class CafeRepositoryTests {
     assertThatThrownBy(() -> cafeRepository.findById(999L)
             .orElseThrow(() -> new EntityNotFoundException("없음")))
             .isInstanceOf(EntityNotFoundException.class);
+  }
+
+  @Test
+  @Order(7)
+  public void findByKeyword_ExactMatch_Success() {
+    // given
+    CafeEntity entity = CafeEntity.builder()
+        .cafeName("성수파이카페")
+        .businessLicense("/cafes/businessLicense/seongsupiecafe.png")
+        .cafeIntroduction("파이가 맛있는 성수동 카페")
+        .cafeAddress("서울 성동구")
+        .zipCode("04798")
+        .image("/images/sample.jpg")
+        .email("example@email.com")
+        .phoneNumber("010-1234-5678")
+        .cafeDetailAddress("101호")
+        .isBusinessDay(true)
+        .build();
+    cafeRepository.save(entity);
+
+    // when
+    List<CafeEntity> result = cafeRepository.findByKeyword("성수파이카페");
+
+    // then
+    assertThat(result).isNotEmpty();
+    assertThat(result.get(0).getCafeName()).contains("성수파이카페");
+  }
+
+  @Test
+  public void findByKeyword_NoMatch_ReturnsEmptyList() {
+    //when
+    List<CafeEntity> result = cafeRepository.findByKeyword("없는카페명");
+    //then
+    assertThat(result).isEmpty();
   }
 }

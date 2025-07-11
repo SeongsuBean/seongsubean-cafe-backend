@@ -45,10 +45,17 @@ public class CafeController {
   }
 
   @GetMapping("/{cafeId}")
-  public ResponseEntity<ResponseCafe> getCafeById(@PathVariable("cafeId") Long registerCafeId) {
+  public ResponseEntity<ResponseCafe> getCafe(@PathVariable("cafeId") Long registerCafeId) {
     CafeDTO cafeDTO = cafeService.getCafeById(registerCafeId);
     ResponseCafe result = new ModelMapper().map(cafeDTO, ResponseCafe.class);
     return ResponseEntity.ok(result);
   }
+
+  @GetMapping("/search")
+  public ResponseEntity<List<ResponseCafe>> searchCafes(@RequestBody RequestKeyword keyword) {
+    List<ResponseCafe> cafeList = cafeService.searchCafes(keyword.getKeyword());
+    return ResponseEntity.ok(cafeList);
+  }
+
 
 }
