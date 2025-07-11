@@ -2,6 +2,5 @@ package com.oopsw.seongsubeancafebackend.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CafeRepository extends JpaRepository<CafeEntity, Long> {
-
+public interface CafeRegisterRepository extends JpaRepository<CafeRegisterEntity, Long> {
 }
