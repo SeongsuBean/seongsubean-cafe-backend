@@ -239,4 +239,27 @@ public class CafeServiceTests {
     List<ResponseCafe> result = cafeService.searchCafes("없는검색어");
     assertThat(result).isEmpty();
   }
+
+  @Test
+  @Order(11)
+  void getCafeCards_ValidData_Success() {
+    // given
+    int page = 0;
+    int size = 4;
+
+    // when
+    List<ResponseCafe> randomCafes = cafeService.getCafeCards(page, size);
+
+    // then
+    assertThat(randomCafes).isNotNull();
+    assertThat(randomCafes.size()).isLessThanOrEqualTo(4);
+
+    // 디버깅용 출력
+    randomCafes.forEach(c -> System.out.println(c.getCafeName()));
+  }
+
+  //카페조회 4카드뷰 실패테스트
+  //order(12)
+
+
 }

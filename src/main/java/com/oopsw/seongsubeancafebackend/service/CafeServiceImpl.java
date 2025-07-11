@@ -78,10 +78,21 @@ public class CafeServiceImpl implements CafeService {
 
   @Override
   public List<ResponseCafe> searchCafes(String keyword) {
-    List<CafeEntity> matchedCafes = cafeRepository.findByKeyword(keyword);
+    List<CafeEntity> cafeList = cafeRepository.findByKeyword(keyword);
     ModelMapper mapper = new ModelMapper();
-    return matchedCafes.stream()
+    return cafeList.stream()
         .map(cafe -> mapper.map(cafe, ResponseCafe.class))
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<ResponseCafe> getCafeCards(int page, int size) {
+    //int size =4;
+    int offset = page * size;
+    List<CafeEntity> cafeList = cafeRepository.findRandomCafes(size, offset);
+    ModelMapper mapper = new ModelMapper();
+    return cafeList.stream()
+        .map(entity -> mapper.map(entity, ResponseCafe.class))
         .collect(Collectors.toList());
   }
 

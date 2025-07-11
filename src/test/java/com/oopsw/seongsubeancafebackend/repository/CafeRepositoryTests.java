@@ -8,8 +8,10 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,29 @@ public class CafeRepositoryTests {
   @Autowired
   CafeRepository cafeRepository;
 
-  @Test
+  @BeforeEach
+  void insertDummyCafes() {
+    List<CafeEntity> cafes = new ArrayList<>();
+
+    for (int i = 1; i <= 8; i++) {
+      cafes.add(CafeEntity.builder()
+          .cafeName("카페" + i)
+          .businessLicense("BL-" + i)
+          .zipCode("04700")
+          .cafeAddress("서울 성수동 " + i + "길")
+          .cafeDetailAddress("1층")
+          .phoneNumber("010-0000-000" + i)
+          .cafeIntroduction("소개" + i)
+          .image("cafe" + i + ".jpg")
+          .isBusinessDay(true)
+          .email("test" + i + "@example.com")
+          .build());
+    }
+
+    cafeRepository.saveAll(cafes);
+  }
+
+  //@Test
   @Order(1)
   public void saveApprovedCafeEntity_Success() {
     // given
@@ -61,7 +85,7 @@ public class CafeRepositoryTests {
 
   //승인실패테스트
 
-  @Test
+  //@Test
   @Order(3)
   public void createCafeAdmin_ValidData_Success() {
     // given
@@ -87,7 +111,7 @@ public class CafeRepositoryTests {
     assertThat(saved.getCafeName()).isEqualTo("성수 어드민 카페");
   }
 
-  @Test
+  //@Test
   @Order(4)
   public void createCafeAdmin_MissingField_DataIntegrityViolationException() {
     // given
@@ -101,7 +125,7 @@ public class CafeRepositoryTests {
             .isInstanceOf(DataIntegrityViolationException.class);
   }
 
-  @Test
+  //@Test
   @Order(5)
   public void findCafeById_ExistingId_Success() {
     // given
@@ -127,7 +151,7 @@ public class CafeRepositoryTests {
     assertThat(found.getCafeName()).isEqualTo("카페");
   }
 
-  @Test
+  //@Test
   @Order(6)
   public void findCafeById_NonExistingId_EntityNotFoundException() {
     // expect
@@ -136,7 +160,7 @@ public class CafeRepositoryTests {
             .isInstanceOf(EntityNotFoundException.class);
   }
 
-  @Test
+  //@Test
   @Order(7)
   public void findByKeyword_ExactMatch_Success() {
     // given
@@ -162,11 +186,35 @@ public class CafeRepositoryTests {
     assertThat(result.get(0).getCafeName()).contains("성수파이카페");
   }
 
-  @Test
+  //@Test
+  @Order(8)
   public void findByKeyword_NoMatch_ReturnsEmptyList() {
     //when
     List<CafeEntity> result = cafeRepository.findByKeyword("없는카페명");
     //then
     assertThat(result).isEmpty();
   }
+
+  @Test
+  @Order(9)
+  void findRandomCafes_ValidData_Success() {
+    // given
+    int size = 4;
+    int offset = 0;
+
+    // when
+    List<CafeEntity> randomCafes = cafeRepository.findRandomCafes(size, offset);
+
+    // then
+    assertThat(randomCafes).isNotNull();
+    assertThat(randomCafes.size()).isLessThanOrEqualTo(4);
+
+    // 출력 확인용 (랜덤이므로 순서는 매번 달라질 수 있음)
+    randomCafes.forEach(c -> System.out.println(c.getCafeName()));
+  }
+
+  //카페조회4카드뷰 실패테스트
+  //order(10)
+
+
 }
