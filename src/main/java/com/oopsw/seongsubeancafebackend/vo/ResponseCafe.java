@@ -4,9 +4,13 @@ import lombok.Data;
 
 @Data
 public class ResponseCafe {
-private String address;
-private String phoneNumber;
-private String introduction;
-private String totalrating;
-private Boolean status;
+    private Long cafeId;
+    private String cafeName;
+    private String cafeAddress;
+    private String cafeDetailAddress;
+    private String phoneNumber;
+    private String cafeIntroduction;
+    private String image;
+    private Boolean isBusinessDay;
+    private String operationTimeText;
 }

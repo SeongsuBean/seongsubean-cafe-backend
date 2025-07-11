@@ -55,6 +55,18 @@ public class CafeServiceImpl implements CafeService {
     return cafeEntity.getCafeId();
   }
 
+  @Override
+  public Long createCafeAdmin(CafeDTO cafeDTO) {
+    CafeEntity cafeEntity = new ModelMapper().map(cafeDTO, CafeEntity.class);
+    //cafeEntity를 저장
+    try {
+      CafeEntity resultCafeEntity = cafeRepository.save(cafeEntity);
+      //cafeEntity의 cafeId를 반환
+      return resultCafeEntity.getCafeId();
+    } catch (Exception e) {
+      throw new DataIntegrityViolationException(e.getMessage());
+    }
+  }
 
 
 

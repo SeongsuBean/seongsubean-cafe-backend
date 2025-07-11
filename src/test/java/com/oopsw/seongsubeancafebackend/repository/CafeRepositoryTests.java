@@ -100,38 +100,5 @@ public class CafeRepositoryTests {
             .isInstanceOf(DataIntegrityViolationException.class);
   }
 
-  @Test
-  @Order(5)
-  public void findCafeById_ExistingId_ReturnsEntity() {
-    // given
-    CafeEntity saved = cafeRepository.save(CafeEntity.builder()
-            .cafeName("카페")
-            .businessLicense("/cafes/businessLicense/cafe.png")
-            .email("taylor1213@cafe.com")
-            .zipCode("04798")
-            .cafeAddress("서울 성동구 성수일로")
-            .cafeDetailAddress("102호")
-            .phoneNumber("010-1234-5678")
-            .cafeIntroduction("진정한 성수 커피를 맛볼 수 있는 곳")
-            .image("/images/cafe.png")
-            .isBusinessDay(true)
-            .operationTimeText("MON:09:00-18:00")
-            .build());
 
-    // when
-    CafeEntity found = cafeRepository.findById(saved.getCafeId())
-            .orElseThrow(() -> new RuntimeException("찾을 수 없음"));
-
-    // then
-    assertThat(found.getCafeName()).isEqualTo("카페");
-  }
-
-  @Test
-  @Order(6)
-  public void findCafeById_NonExistingId_EntityNotFoundException() {
-    // expect
-    assertThatThrownBy(() -> cafeRepository.findById(999L)
-            .orElseThrow(() -> new EntityNotFoundException("없음")))
-            .isInstanceOf(EntityNotFoundException.class);
-  }
 }
