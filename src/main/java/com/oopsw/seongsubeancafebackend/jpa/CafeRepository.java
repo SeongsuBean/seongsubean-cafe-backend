@@ -12,4 +12,8 @@ public interface CafeRepository extends JpaRepository<CafeEntity, Long> {
       "OR c.cafeDetailAddress LIKE %:keyword% " +
       "OR c.cafeIntroduction LIKE %:keyword%")
   List<CafeEntity> findByKeyword(@Param("keyword") String keyword);
+
+  @Query(value = "SELECT * FROM cafe_info ORDER BY RAND() LIMIT :limit OFFSET :offset", nativeQuery = true)
+  List<CafeEntity> findRandomCafes(@Param("limit") int limit, @Param("offset") int offset);
+
 }

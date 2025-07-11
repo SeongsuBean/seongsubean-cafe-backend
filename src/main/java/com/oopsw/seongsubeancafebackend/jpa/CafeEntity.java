@@ -41,9 +41,9 @@ public class CafeEntity {
   private String cafeDetailAddress;
   @Column(name = "PHONE_NUMBER", length = 20)
   private String phoneNumber;
-  @Column(name = "CAFE_INTRODUCTION", nullable = false, columnDefinition = "TEXT")
+  @Column(name = "CAFE_INTRODUCTION", columnDefinition = "TEXT")
   private String cafeIntroduction;
-  @Column(name = "IMAGE", nullable = false, length = 200)
+  @Column(name = "IMAGE", length = 200)
   private String image;
   @Column(name = "IS_BUSINESS_DAY", nullable = false)
   private Boolean isBusinessDay = true;

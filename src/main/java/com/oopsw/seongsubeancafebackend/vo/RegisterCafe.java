@@ -15,11 +15,9 @@ public class RegisterCafe {
     private String zipCode;
     private String cafeAddress;
     private String cafeDetailAddress;
-    private String phoneNumber;
-    private String cafeIntroduction;
-    private String image;
     private Boolean isBusinessDay;
     private String operationTimeText;
 
     private String nickName;
+    private String email;
 }

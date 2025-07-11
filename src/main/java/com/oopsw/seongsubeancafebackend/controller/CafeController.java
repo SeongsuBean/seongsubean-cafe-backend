@@ -52,8 +52,15 @@ public class CafeController {
   }
 
   @GetMapping("/search")
-  public ResponseEntity<List<ResponseCafe>> searchCafes(@RequestBody RequestKeyword keyword) {
-    List<ResponseCafe> cafeList = cafeService.searchCafes(keyword.getKeyword());
+  public ResponseEntity<List<ResponseCafe>> searchCafes(@PathVariable ("keyword") String keyword) {
+    List<ResponseCafe> cafeList = cafeService.searchCafes(keyword);
+    return ResponseEntity.ok(cafeList);
+  }
+
+  @GetMapping("/random")
+  public ResponseEntity<List<ResponseCafe>> getCafeCards(@RequestParam(defaultValue = "0") int page) {
+    int size = 4;
+    List<ResponseCafe> cafeList = cafeService.getCafeCards(page, size);
     return ResponseEntity.ok(cafeList);
   }
 

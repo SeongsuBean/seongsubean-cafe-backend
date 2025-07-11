@@ -11,4 +11,6 @@ public interface CafeService {
   Long createCafeAdmin(CafeDTO cafeDTO);
   CafeDTO getCafeById(Long cafeId);
   List<ResponseCafe> searchCafes(String keyword);
+
+  List<ResponseCafe> getCafeCards(int page, int size);
 }
