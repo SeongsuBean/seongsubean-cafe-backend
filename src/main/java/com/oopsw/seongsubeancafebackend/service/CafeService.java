@@ -10,5 +10,6 @@ public interface CafeService {
   Long approveCafe(Long registerCafeId);
 
   Long createCafeAdmin(CafeDTO cafeDTO);
+  CafeDTO getCafeById(Long cafeId);
 
 }

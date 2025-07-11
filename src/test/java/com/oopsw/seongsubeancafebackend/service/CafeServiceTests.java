@@ -128,6 +128,76 @@ public class CafeServiceTests {
   //승인실패테스트
   //order4
 
+  @Test
+  @Order(5)
+  public void createCafeAdmin_ValidDTO_Success() {
+    // given
+    CafeDTO cafeDTO = CafeDTO.builder()
+            .email("admin@cafe.com")
+            .cafeName("성수 어드민 카페")
+            .businessLicense("/cafes/businessLicense/seongsuadmincafe.png")
+            .zipCode("04798")
+            .cafeAddress("서울 성동구 연무장길")
+            .cafeDetailAddress("2층")
+            .phoneNumber("010-5678-1234")
+            .cafeIntroduction("관리자 등록용 서비스 테스트")
+            .image("/images/cafe/admin2.png")
+            .isBusinessDay(true)
+            .build();
 
+    // when
+    Long cafeId = cafeService.createCafeAdmin(cafeDTO);
+
+    // then
+    assertThat(cafeId).isNotNull();
+    assertThat(cafeRepository.findById(cafeId)).isPresent();
+  }
+
+  @Test
+  @Order(6)
+  public void createCafeAdmin_InvalidDTO_DataIntegrityViolationException() {
+    // given
+    CafeDTO incomplete = CafeDTO.builder()
+            .email("fail@admin.com")
+            .zipCode("04798")
+            .build();
+
+    // when & then
+    assertThatThrownBy(() -> cafeService.createCafeAdmin(incomplete))
+            .isInstanceOf(DataIntegrityViolationException.class);
+  }
+
+  @Test
+  @Order(7)
+  public void getCafeById_ValidId_ReturnsDTO() {
+    // given
+    CafeEntity saved = cafeRepository.save(CafeEntity.builder()
+            .cafeName("바나프레소 성수점")
+            .businessLicense("/cafes/businessLicense/banacafe.png")
+            .email("banana@cafe.com")
+            .zipCode("04799")
+            .cafeAddress("서울 성동구 아차산로")
+            .cafeDetailAddress("2층")
+            .phoneNumber("010-5678-1234")
+            .cafeIntroduction("달콤한 디저트와 함께하는 카페")
+            .image("/images/banana.png")
+            .isBusinessDay(true)
+            .operationTimeText("TUE:10:00-19:00")
+            .build());
+
+    // when
+    CafeDTO dto = cafeService.getCafeById(saved.getCafeId());
+
+    // then
+    assertThat(dto).isNotNull();
+    assertThat(dto.getCafeName()).isEqualTo("바나프레소 성수점");
+  }
+
+  @Test
+  @Order(8)
+  public void getCafeById_InvalidId_EntityNotFoundException() {
+    assertThatThrownBy(() -> cafeService.getCafeById(12345L))
+            .isInstanceOf(EntityNotFoundException.class);
+  }
 
 }

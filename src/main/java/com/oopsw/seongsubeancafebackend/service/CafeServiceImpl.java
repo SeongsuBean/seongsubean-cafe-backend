@@ -68,6 +68,14 @@ public class CafeServiceImpl implements CafeService {
     }
   }
 
+  @Override
+  public CafeDTO getCafeById(Long cafeId) {
+    CafeEntity entity = cafeRepository.findById(cafeId)
+            .orElseThrow(() -> new EntityNotFoundException("카페를 찾을 수 없습니다. ID: " + cafeId));
+    return new ModelMapper().map(entity, CafeDTO.class);
+  }
+
+
 
 
 }
