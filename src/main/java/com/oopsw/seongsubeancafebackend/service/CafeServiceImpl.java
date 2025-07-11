@@ -8,6 +8,7 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -75,7 +76,14 @@ public class CafeServiceImpl implements CafeService {
     return new ModelMapper().map(entity, CafeDTO.class);
   }
 
-
+  @Override
+  public List<ResponseCafe> searchCafes(String keyword) {
+    List<CafeEntity> matchedCafes = cafeRepository.findByKeyword(keyword);
+    ModelMapper mapper = new ModelMapper();
+    return matchedCafes.stream()
+        .map(cafe -> mapper.map(cafe, ResponseCafe.class))
+        .collect(Collectors.toList());
+  }
 
 
 }

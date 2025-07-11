@@ -9,7 +9,9 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterRepository;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
+import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -32,10 +34,14 @@ import java.time.LocalDateTime;
 public class CafeServiceTests {
   @Autowired
   public CafeService cafeService;
-    @Autowired
-    private CafeRegisterRepository cafeRegisterRepository;
-    @Autowired
-    private CafeRepository cafeRepository;
+
+  @Autowired
+  private CafeRegisterRepository cafeRegisterRepository;
+
+  @Autowired
+  private CafeRepository cafeRepository;
+
+
 
   @Test
   @Order(1)
@@ -200,4 +206,37 @@ public class CafeServiceTests {
             .isInstanceOf(EntityNotFoundException.class);
   }
 
+  @Test
+  @Order(9)
+  @Transactional
+  public void searchCafes_ValidKeyword_ReturnsCafeDTOList() {
+    //given
+    CafeEntity entity = CafeEntity.builder()
+        .cafeName("성수브루잉")
+        .businessLicense("/cafes/businessLicense/seongsubu.png")
+        .cafeIntroduction("핸드드립과 수제 맥주를 파는 카페")
+        .cafeAddress("서울 성동구")
+        .zipCode("04799")
+        .image("/images/sample2.jpg")
+        .email("admin@brew.com")
+        .phoneNumber("010-5678-1234")
+        .cafeDetailAddress("지하 1층")
+        .isBusinessDay(true)
+        .build();
+    cafeRepository.save(entity);
+    cafeRepository.flush(); // 바로 DB 반영
+    //when
+    List<ResponseCafe> result = cafeService.searchCafes("브루잉");
+
+    //then
+    assertThat(result).isNotEmpty();
+    assertThat(result.get(0).getCafeName()).contains("성수브루잉");
+  }
+
+  @Test
+  @Order(10)
+  public void searchCafes_NoMatch_ReturnsEmptyList() {
+    List<ResponseCafe> result = cafeService.searchCafes("없는검색어");
+    assertThat(result).isEmpty();
+  }
 }
