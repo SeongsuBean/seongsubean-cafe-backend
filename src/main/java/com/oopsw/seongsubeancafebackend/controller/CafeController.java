@@ -73,4 +73,10 @@ public class CafeController {
     ResponseCafe response = cafeService.updateCafe(requestOwnerEditCafe);
     return ResponseEntity.ok(response);
   }
+
+  @DeleteMapping("{cafeId}")
+  public ResponseEntity<Map<String, String>> deleteCafe(@PathVariable("cafeId") Long registerCafeId) {
+    cafeService.deleteById(registerCafeId);
+    return ResponseEntity.ok(Map.of("message", "Cafe deleted Successfully"));
+  }
 }

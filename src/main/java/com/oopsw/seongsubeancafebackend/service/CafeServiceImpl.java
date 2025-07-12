@@ -142,5 +142,10 @@ public class CafeServiceImpl implements CafeService {
     return new ModelMapper().map(saved, ResponseCafe.class);
   }
 
-
+  @Override
+  public void deleteById(Long registerCafeId) {
+    CafeEntity entity = cafeRepository.findById(registerCafeId)
+            .orElseThrow(() -> new EntityNotFoundException("해당 카페를 찾을 수 없습니다."));
+    cafeRepository.delete(entity);
+  }
 }
