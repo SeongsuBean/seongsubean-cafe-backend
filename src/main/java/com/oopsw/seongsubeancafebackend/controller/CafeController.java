@@ -2,14 +2,11 @@ package com.oopsw.seongsubeancafebackend.controller;
 
 import com.oopsw.seongsubeancafebackend.dto.CafeDTO;
 import com.oopsw.seongsubeancafebackend.service.CafeService;
-import com.oopsw.seongsubeancafebackend.vo.RegisterCafe;
-import com.oopsw.seongsubeancafebackend.vo.RequestCafe;
+import com.oopsw.seongsubeancafebackend.vo.*;
 
-import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
 import java.util.List;
 import java.util.Map;
 
-import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -24,8 +21,8 @@ public class CafeController {
 
   //Vaild
   @PostMapping()
-  public ResponseEntity<Map<String, Long>> createCafe(@RequestBody RequestCafe requestCafe) {
-    CafeDTO cafeDTO = new ModelMapper().map(requestCafe, CafeDTO.class);
+  public ResponseEntity<Map<String, Long>> createCafe(@RequestBody RequestOwnerCreateCafe requestOwnerCreateCafe) {
+    CafeDTO cafeDTO = new ModelMapper().map(requestOwnerCreateCafe, CafeDTO.class);
     Long resultCafeId = cafeService.createCafe(cafeDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
   }
@@ -37,8 +34,8 @@ public class CafeController {
   }
 
   @PostMapping("/admin")
-  public ResponseEntity<Map<String, Long>> createCafeAdmin(@RequestBody RegisterCafe registerCafe) {
-    CafeDTO cafeDTO = new ModelMapper().map(registerCafe, CafeDTO.class);
+  public ResponseEntity<Map<String, Long>> createCafeAdmin(@RequestBody RequestAdminCreateCafe requestAdminCreateCafe) {
+    CafeDTO cafeDTO = new ModelMapper().map(requestAdminCreateCafe, CafeDTO.class);
     Long resultCafeId = cafeService.createCafeAdmin(cafeDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
   }
@@ -63,18 +60,17 @@ public class CafeController {
     return ResponseEntity.ok(cafeList);
   }
 
-  @GetMapping("/mycafe")
+  @GetMapping("/mycafes")
   public ResponseEntity<List<ResponseCafe>> getMyCafes(@RequestBody RequestEmail email) {
     List<ResponseCafe> cafeList = cafeService.getMyCafes(email);
     return ResponseEntity.ok(cafeList);
   }
 
   @PutMapping("{cafeId}")
-  public ResponseEntity<ResponseCafe> updateCafe(@RequestBody RequestCafe requestCafe,
-      @PathVariable("cafeId") Long registerCafeId) {
-    CafeDTO cafeDTO = new ModelMapper().map(requestCafe, CafeDTO.class);
-    cafeDTO.setCafeId(registerCafeId);
-    ResponseCafe response = new ModelMapper().map(cafeService.updateCafe(cafeDTO), ResponseCafe.class);
+  public ResponseEntity<ResponseCafe> updateCafe(@RequestBody RequestOwnerEditCafe requestOwnerEditCafe,
+                                                 @PathVariable("cafeId") Long registerCafeId) {
+    requestOwnerEditCafe.setCafeId(registerCafeId);
+    ResponseCafe response = cafeService.updateCafe(requestOwnerEditCafe);
     return ResponseEntity.ok(response);
   }
 }

@@ -6,6 +6,7 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterRepository;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
 import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
+import com.oopsw.seongsubeancafebackend.vo.RequestOwnerEditCafe;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -105,9 +106,40 @@ public class CafeServiceImpl implements CafeService {
         .collect(Collectors.toList());
   }
 
-  @Override
-  public ResponseCafe updateCafe(CafeDTO cafeDTO) {
-    return null;
+  @Transactional
+  public ResponseCafe updateCafe(RequestOwnerEditCafe requestCafe) {
+    // 1. DTO로 변환
+    CafeDTO dto = new ModelMapper().map(requestCafe, CafeDTO.class);
+
+    // 2. 기존 엔티티 조회
+    CafeEntity entity = cafeRepository.findById(requestCafe.getCafeId())
+            .orElseThrow(() -> new EntityNotFoundException("카페를 찾을 수 없습니다."));
+
+    // 3. 직접 엔티티 수정 => 내부 메서드로 리팩토링 가능
+    if (requestCafe.getCafeName() != null && !requestCafe.getCafeName().isBlank()) {
+      entity.setCafeName(requestCafe.getCafeName());
+    }
+    if (requestCafe.getBusinessLicense() != null && !requestCafe.getBusinessLicense().isBlank()) {
+      entity.setBusinessLicense(requestCafe.getBusinessLicense());
+    }
+    if (requestCafe.getZipCode() != null && !requestCafe.getZipCode().isBlank()) {
+      entity.setZipCode(requestCafe.getZipCode());
+    }
+    if (requestCafe.getCafeAddress() != null && !requestCafe.getCafeAddress().isBlank()) {
+      entity.setCafeAddress(requestCafe.getCafeAddress());
+    }
+    if (requestCafe.getPhoneNumber() != null && !requestCafe.getPhoneNumber().isBlank()) {
+      entity.setPhoneNumber(requestCafe.getPhoneNumber());
+    }
+    if (requestCafe.getIsBusinessDay() != null) {
+      entity.setIsBusinessDay(requestCafe.getIsBusinessDay());
+    }
+
+    // 4. 저장
+    CafeEntity saved = cafeRepository.save(entity);
+
+    // 5. 응답 반환
+    return new ModelMapper().map(saved, ResponseCafe.class);
   }
 
 

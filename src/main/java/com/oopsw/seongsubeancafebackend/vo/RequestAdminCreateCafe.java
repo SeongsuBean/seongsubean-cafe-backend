@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterCafe {
+public class RequestAdminCreateCafe {
     private String cafeName;
     private String businessLicense;
     private String zipCode;

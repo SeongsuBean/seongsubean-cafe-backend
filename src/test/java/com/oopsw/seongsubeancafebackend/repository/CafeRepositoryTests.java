@@ -32,7 +32,7 @@ public class CafeRepositoryTests {
   CafeRepository cafeRepository;
 
   @BeforeEach
-  void insertDummyCafes() {
+  void insertCafeData() {
     List<CafeEntity> cafes = new ArrayList<>();
 
     for (int i = 1; i <= 8; i++) {
@@ -208,9 +208,6 @@ public class CafeRepositoryTests {
     // then
     assertThat(randomCafes).isNotNull();
     assertThat(randomCafes.size()).isLessThanOrEqualTo(4);
-
-    // 출력 확인용 (랜덤이므로 순서는 매번 달라질 수 있음)
-    randomCafes.forEach(c -> System.out.println(c.getCafeName()));
   }
 
   //카페조회4카드뷰 실패테스트
@@ -245,5 +242,20 @@ public class CafeRepositoryTests {
   //내카페조회 실패 테스트
   //order12
 
+  @Test
+  @Order(13)
+  void updateCafe_ValidCafeName_Success() {
+    // given
+    CafeEntity entity = cafeRepository.findAll().get(0);
+    entity.setCafeName("변경된 카페 이름");
 
+    // when
+    CafeEntity updated = cafeRepository.save(entity);
+
+    // then
+    assertThat(updated.getCafeName()).isEqualTo("변경된 카페 이름");
+  }
+
+  //카페 수정 실패 테스트
+  //order14
 }
