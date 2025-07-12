@@ -16,4 +16,5 @@ public interface CafeRepository extends JpaRepository<CafeEntity, Long> {
   @Query(value = "SELECT * FROM cafe_info ORDER BY RAND() LIMIT :limit OFFSET :offset", nativeQuery = true)
   List<CafeEntity> findRandomCafes(@Param("limit") int limit, @Param("offset") int offset);
 
+  List<CafeEntity> findByEmail(String email);
 }

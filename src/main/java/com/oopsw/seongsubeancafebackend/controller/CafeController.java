@@ -5,17 +5,16 @@ import com.oopsw.seongsubeancafebackend.service.CafeService;
 import com.oopsw.seongsubeancafebackend.vo.RegisterCafe;
 import com.oopsw.seongsubeancafebackend.vo.RequestCafe;
 
+import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
 import java.util.List;
 import java.util.Map;
 
-import com.oopsw.seongsubeancafebackend.vo.RequestKeyword;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.RenderingResponse;
 
 @RestController
 @RequestMapping("/api/cafes")
@@ -64,5 +63,18 @@ public class CafeController {
     return ResponseEntity.ok(cafeList);
   }
 
+  @GetMapping("/mycafe")
+  public ResponseEntity<List<ResponseCafe>> getMyCafes(@RequestBody RequestEmail email) {
+    List<ResponseCafe> cafeList = cafeService.getMyCafes(email);
+    return ResponseEntity.ok(cafeList);
+  }
 
+  @PutMapping("{cafeId}")
+  public ResponseEntity<ResponseCafe> updateCafe(@RequestBody RequestCafe requestCafe,
+      @PathVariable("cafeId") Long registerCafeId) {
+    CafeDTO cafeDTO = new ModelMapper().map(requestCafe, CafeDTO.class);
+    cafeDTO.setCafeId(registerCafeId);
+    ResponseCafe response = new ModelMapper().map(cafeService.updateCafe(cafeDTO), ResponseCafe.class);
+    return ResponseEntity.ok(response);
+  }
 }
