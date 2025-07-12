@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestKeyword {
-  private String keyword;
+public class RequestEmail {
+  private String email;
 }

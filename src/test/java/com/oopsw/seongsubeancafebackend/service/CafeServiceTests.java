@@ -9,6 +9,7 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterRepository;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
+import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -253,13 +254,52 @@ public class CafeServiceTests {
     // then
     assertThat(randomCafes).isNotNull();
     assertThat(randomCafes.size()).isLessThanOrEqualTo(4);
-
-    // 디버깅용 출력
-    randomCafes.forEach(c -> System.out.println(c.getCafeName()));
   }
 
   //카페조회 4카드뷰 실패테스트
   //order(12)
 
+  @Test
+  @Order(13)
+  void getMyCafes_ValidEmail_Success() {
+    // given
+    CafeEntity cafe1 = CafeEntity.builder()
+        .cafeName("카페1")
+        .email("owner@test.com")
+        .businessLicense("1111111111")
+        .zipCode("12345")
+        .cafeAddress("서울시 성동구")
+        .cafeDetailAddress("1층")
+        .phoneNumber("010-0000-0001")
+        .cafeIntroduction("카페1 소개")
+        .isBusinessDay(true)
+        .build();
 
+    CafeEntity cafe2 = CafeEntity.builder()
+        .cafeName("카페2")
+        .email("owner@test.com")
+        .businessLicense("2222222222")
+        .zipCode("12345")
+        .cafeAddress("서울시 성동구")
+        .cafeDetailAddress("2층")
+        .phoneNumber("010-0000-0002")
+        .cafeIntroduction("카페2 소개")
+        .isBusinessDay(true)
+        .build();
+
+    cafeRepository.saveAll(List.of(cafe1, cafe2));
+    cafeRepository.flush();
+
+    // when
+    RequestEmail requestEmail = new RequestEmail("owner@test.com");
+    List<ResponseCafe> result = cafeService.getMyCafes(requestEmail);
+
+    // then
+    assertThat(result).hasSize(2);
+    assertThat(result.get(0).getCafeName()).isEqualTo("카페1");
+    assertThat(result.get(1).getCafeName()).isEqualTo("카페2");
+  }
+
+  //내카페조회 실패테스트
+  //order(14)
 }

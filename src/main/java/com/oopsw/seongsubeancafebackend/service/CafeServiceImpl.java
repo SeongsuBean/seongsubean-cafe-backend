@@ -5,6 +5,7 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterEntity;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRegisterRepository;
 import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
+import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -94,6 +95,19 @@ public class CafeServiceImpl implements CafeService {
     return cafeList.stream()
         .map(entity -> mapper.map(entity, ResponseCafe.class))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<ResponseCafe> getMyCafes(RequestEmail email) {
+    List<CafeEntity> cafeEntities = cafeRepository.findByEmail(email.getEmail());
+    return cafeEntities.stream()
+        .map(entity -> new ModelMapper().map(entity, ResponseCafe.class))
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public ResponseCafe updateCafe(CafeDTO cafeDTO) {
+    return null;
   }
 
 

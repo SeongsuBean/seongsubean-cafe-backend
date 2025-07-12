@@ -216,5 +216,34 @@ public class CafeRepositoryTests {
   //카페조회4카드뷰 실패테스트
   //order(10)
 
+  @Test
+  @Order(11)
+  void findByEmail_ValidEmail_Success() {
+    // given
+    CafeEntity cafe = CafeEntity.builder()
+        .cafeName("내카페찾는카페이름")
+        .email("taylor1213@gmail.com")
+        .businessLicense("License1234567890")
+        .zipCode("12345")
+        .cafeAddress("서울 성동구 성수이로")
+        .cafeDetailAddress("101호")
+        .phoneNumber("010-1234-5678")
+        .cafeIntroduction("아무튼 카페")
+        .isBusinessDay(true)
+        .build();
+    cafeRepository.save(cafe);
+    cafeRepository.flush();
+
+    // when
+    List<CafeEntity> result = cafeRepository.findByEmail("taylor1213@gmail.com");
+
+    // then
+    assertThat(result).isNotEmpty();
+    assertThat(result.get(0).getCafeName()).isEqualTo("내카페찾는카페이름");
+  }
+
+  //내카페조회 실패 테스트
+  //order12
+
 
 }
