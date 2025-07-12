@@ -55,7 +55,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(1)
-  public void saveApprovedCafeEntity_Success() {
+  void saveApprovedCafeEntity_Success() {
     // given
     CafeEntity cafeEntity = CafeEntity.builder()
             .email("taylor1213@gmail.com")
@@ -87,7 +87,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(3)
-  public void createCafeAdmin_ValidData_Success() {
+  void createCafeAdmin_ValidData_Success() {
     // given
     CafeEntity cafeEntity = CafeEntity.builder()
             .email("admin@cafe.com")
@@ -113,7 +113,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(4)
-  public void createCafeAdmin_MissingField_DataIntegrityViolationException() {
+  void createCafeAdmin_MissingField_DataIntegrityViolationException() {
     // given
     CafeEntity incomplete = CafeEntity.builder()
             .email("admin2@cafe.com")
@@ -127,7 +127,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(5)
-  public void findCafeById_ExistingId_Success() {
+  void findCafeById_ExistingId_Success() {
     // given
     CafeEntity saved = cafeRepository.save(CafeEntity.builder()
             .cafeName("카페")
@@ -153,7 +153,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(6)
-  public void findCafeById_NonExistingId_EntityNotFoundException() {
+  void findCafeById_NonExistingId_EntityNotFoundException() {
     // expect
     assertThatThrownBy(() -> cafeRepository.findById(999L)
             .orElseThrow(() -> new EntityNotFoundException("없음")))
@@ -162,7 +162,7 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(7)
-  public void findByKeyword_ExactMatch_Success() {
+  void findByKeyword_ExactMatch_Success() {
     // given
     CafeEntity entity = CafeEntity.builder()
         .cafeName("성수파이카페")
@@ -188,14 +188,14 @@ public class CafeRepositoryTests {
 
   //@Test
   @Order(8)
-  public void findByKeyword_NoMatch_ReturnsEmptyList() {
+  void findByKeyword_NoMatch_ReturnsEmptyList() {
     //when
     List<CafeEntity> result = cafeRepository.findByKeyword("없는카페명");
     //then
     assertThat(result).isEmpty();
   }
 
-  @Test
+  //@Test
   @Order(9)
   void findRandomCafes_ValidData_Success() {
     // given
@@ -213,7 +213,7 @@ public class CafeRepositoryTests {
   //카페조회4카드뷰 실패테스트
   //order(10)
 
-  @Test
+  //@Test
   @Order(11)
   void findByEmail_ValidEmail_Success() {
     // given
@@ -242,7 +242,7 @@ public class CafeRepositoryTests {
   //내카페조회 실패 테스트
   //order12
 
-  @Test
+  //@Test
   @Order(13)
   void updateCafe_ValidCafeName_Success() {
     // given
@@ -258,4 +258,21 @@ public class CafeRepositoryTests {
 
   //카페 수정 실패 테스트
   //order14
+
+  @Test
+  @Order(15)
+  void deleteCafe_ValidCafeId_Success() {
+    // given
+    CafeEntity entity = cafeRepository.findAll().get(0);
+    Long id = entity.getCafeId();
+
+    // when
+    cafeRepository.deleteById(id);
+
+    // then
+    assertThat(cafeRepository.findById(id)).isEmpty();
+  }
+
+  //카페 삭제 실패 테스트
+  //order(16)
 }

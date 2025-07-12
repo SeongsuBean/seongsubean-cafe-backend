@@ -69,7 +69,7 @@ public class CafeServiceTests {
 
   @Test
   //@Order(1)
-  public void createCafe_ValidData_Success() {
+  void createCafe_ValidData_Success() {
     //given
     CafeDTO cafeDTO = CafeDTO.builder()
         .email("taylor1213@gmail.com")
@@ -93,7 +93,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(2)
-  public void createCafe_NullValue_DataIntegrityViolationException_PropertyValueException() {
+  void createCafe_NullValue_DataIntegrityViolationException_PropertyValueException() {
     //given
     CafeDTO cafeDTO = CafeDTO.builder()
         .email("taylor1213@gmail.com")
@@ -120,7 +120,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(3)
-  public void approveCafe_ValidData_Success() {
+  void approveCafe_ValidData_Success() {
     // given - 회원이 카페 등록 신청
     CafeRegisterEntity registerEntity = CafeRegisterEntity.builder()
             .email("taylor1213@gmail.com")
@@ -160,7 +160,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(5)
-  public void createCafeAdmin_ValidDTO_Success() {
+  void createCafeAdmin_ValidDTO_Success() {
     // given
     CafeDTO cafeDTO = CafeDTO.builder()
             .email("admin@cafe.com")
@@ -185,7 +185,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(6)
-  public void createCafeAdmin_InvalidDTO_DataIntegrityViolationException() {
+  void createCafeAdmin_InvalidDTO_DataIntegrityViolationException() {
     // given
     CafeDTO incomplete = CafeDTO.builder()
             .email("fail@admin.com")
@@ -199,7 +199,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(7)
-  public void getCafeById_ValidId_ReturnsDTO() {
+  void getCafeById_ValidId_ReturnsDTO() {
     // given
     CafeEntity saved = cafeRepository.save(CafeEntity.builder()
             .cafeName("바나프레소 성수점")
@@ -225,7 +225,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(8)
-  public void getCafeById_InvalidId_EntityNotFoundException() {
+  void getCafeById_InvalidId_EntityNotFoundException() {
     assertThatThrownBy(() -> cafeService.getCafeById(12345L))
             .isInstanceOf(EntityNotFoundException.class);
   }
@@ -233,7 +233,7 @@ public class CafeServiceTests {
   //@Test
   @Order(9)
   @Transactional
-  public void searchCafes_ValidKeyword_ReturnsCafeDTOList() {
+  void searchCafes_ValidKeyword_ReturnsCafeDTOList() {
     //given
     CafeEntity entity = CafeEntity.builder()
         .cafeName("성수브루잉")
@@ -259,14 +259,14 @@ public class CafeServiceTests {
 
   //@Test
   @Order(10)
-  public void searchCafes_NoMatch_ReturnsEmptyList() {
+  void searchCafes_NoMatch_ReturnsEmptyList() {
     List<ResponseCafe> result = cafeService.searchCafes("없는검색어");
     assertThat(result).isEmpty();
   }
 
   //@Test
   @Order(11)
-  public void getCafeCards_ValidData_Success() {
+  void getCafeCards_ValidData_Success() {
     // given
     int page = 0;
     int size = 4;
@@ -284,7 +284,7 @@ public class CafeServiceTests {
 
   //@Test
   @Order(13)
-  public void getMyCafes_ValidEmail_Success() {
+  void getMyCafes_ValidEmail_Success() {
     // given
     CafeEntity cafe1 = CafeEntity.builder()
         .cafeName("카페1")
@@ -328,7 +328,7 @@ public class CafeServiceTests {
 
   @Test
   @Order(15)
-  public void updateCafe_ValidCafeData_Success() {
+  void updateCafe_ValidCafeData_Success() {
     // given
     CafeEntity existing = cafeRepository.findAll().get(0); //첫번째 샘플 데이터
     Long cafeId = existing.getCafeId();
@@ -357,4 +357,21 @@ public class CafeServiceTests {
 
   //카페 수정 실패테스트
   //order(16)
+
+  @Test
+  @Order(17)
+  void deleteCafe_ValidCafeId_Success() {
+    // given
+    CafeEntity cafe = cafeRepository.findAll().get(0);
+    Long cafeId = cafe.getCafeId();
+
+    // when
+    cafeService.deleteById(cafeId);
+
+    // then
+    assertThat(cafeRepository.findById(cafeId)).isEmpty();
+  }
+
+  //카페 삭제 실패 테스트
+  //order(18)
 }
