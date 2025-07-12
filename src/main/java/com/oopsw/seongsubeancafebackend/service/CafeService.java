@@ -17,4 +17,5 @@ public interface CafeService {
   List<ResponseCafe> getMyCafes(RequestEmail email);
   ResponseCafe updateCafe(RequestOwnerEditCafe requestOwnerEditCafe);
   void deleteById(Long registerCafeId);
+  void updateBusinessDay(Long cafeId);
 }
