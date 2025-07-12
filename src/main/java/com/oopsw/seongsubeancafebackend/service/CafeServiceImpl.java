@@ -148,4 +148,12 @@ public class CafeServiceImpl implements CafeService {
             .orElseThrow(() -> new EntityNotFoundException("해당 카페를 찾을 수 없습니다."));
     cafeRepository.delete(entity);
   }
+
+  @Override
+  @Transactional //수정,변경 필수
+  public void updateBusinessDay(Long cafeId) {
+    CafeEntity cafe = cafeRepository.findById(cafeId)
+            .orElseThrow(() -> new EntityNotFoundException("카페를 찾을 수 없습니다. ID: " + cafeId));
+    cafe.setIsBusinessDay(!cafe.getIsBusinessDay()); //DB에 있는 값 기준으로 반전
+  }
 }

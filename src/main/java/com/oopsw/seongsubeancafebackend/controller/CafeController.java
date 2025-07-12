@@ -48,7 +48,7 @@ public class CafeController {
   }
 
   @GetMapping("/search")
-  public ResponseEntity<List<ResponseCafe>> searchCafes(@PathVariable ("keyword") String keyword) {
+  public ResponseEntity<List<ResponseCafe>> searchCafes(@RequestParam String keyword) {
     List<ResponseCafe> cafeList = cafeService.searchCafes(keyword);
     return ResponseEntity.ok(cafeList);
   }
@@ -66,7 +66,7 @@ public class CafeController {
     return ResponseEntity.ok(cafeList);
   }
 
-  @PutMapping("{cafeId}")
+  @PutMapping("/{cafeId}")
   public ResponseEntity<ResponseCafe> updateCafe(@RequestBody RequestOwnerEditCafe requestOwnerEditCafe,
                                                  @PathVariable("cafeId") Long registerCafeId) {
     requestOwnerEditCafe.setCafeId(registerCafeId);
@@ -74,9 +74,15 @@ public class CafeController {
     return ResponseEntity.ok(response);
   }
 
-  @DeleteMapping("{cafeId}")
+  @DeleteMapping("/{cafeId}")
   public ResponseEntity<Map<String, String>> deleteCafe(@PathVariable("cafeId") Long registerCafeId) {
     cafeService.deleteById(registerCafeId);
     return ResponseEntity.ok(Map.of("message", "Cafe deleted Successfully"));
+  }
+
+  @PatchMapping("/{cafeId}/business-day")
+  public ResponseEntity<Map<String, String>> updateBusinessDayStatus(@PathVariable Long cafeId) {
+    cafeService.updateBusinessDay(cafeId);
+    return ResponseEntity.ok(Map.of("message", "IsBusinessDay Updated Successfully"));
   }
 }

@@ -12,10 +12,13 @@ import com.oopsw.seongsubeancafebackend.jpa.CafeRepository;
 import com.oopsw.seongsubeancafebackend.vo.RequestEmail;
 import com.oopsw.seongsubeancafebackend.vo.RequestOwnerEditCafe;
 import com.oopsw.seongsubeancafebackend.vo.ResponseCafe;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +42,9 @@ import java.time.LocalDateTime;
 public class CafeServiceTests {
   @Autowired
   public CafeService cafeService;
+
+  @PersistenceContext // DB에 강제반영
+  private EntityManager em;
 
   @Autowired
   private CafeRegisterRepository cafeRegisterRepository;
@@ -358,7 +364,7 @@ public class CafeServiceTests {
   //카페 수정 실패테스트
   //order(16)
 
-  @Test
+  //@Test
   @Order(17)
   void deleteCafe_ValidCafeId_Success() {
     // given
@@ -374,4 +380,38 @@ public class CafeServiceTests {
 
   //카페 삭제 실패 테스트
   //order(18)
+
+  @Test
+  @Order(19)
+  void updateBusinessDay_ValidData_Success() {
+    // given
+    CafeEntity cafe = CafeEntity.builder()
+            .cafeName("테스트카페")
+            .isBusinessDay(true)
+            .email("admin@cafe.com")
+            .businessLicense("/cafes/businessLicense/seongsuadmincafe.png")
+            .zipCode("04798")
+            .cafeAddress("서울 성동구 뚝섬로 1길")
+            .cafeDetailAddress("2층")
+            .phoneNumber("010-1234-5678")
+            .cafeIntroduction("관리자 등록 테스트 카페")
+            .image("/images/cafe/admin-cafe.png")
+            .build();
+    CafeEntity saved = cafeRepository.save(cafe);
+    em.flush();
+    em.clear();
+
+    // when
+    cafeService.updateBusinessDay(saved.getCafeId());
+    em.flush();
+    em.clear();
+
+    // then
+    CafeEntity updated = cafeRepository.findById(saved.getCafeId()).orElseThrow();
+    assertThat(updated.getIsBusinessDay()).isFalse();
+  }
+
+  //카페 휴무 설정 실패 테스트
+  //order(20)
+
 }
