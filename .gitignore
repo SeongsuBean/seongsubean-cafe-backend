@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,intellij
+/src/main/resources/properties/env.properties
