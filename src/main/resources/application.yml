@@ -4,7 +4,7 @@ spring:
   application:
     name: seongsubean-cafe-backend
   datasource:
-    url: jdbc:mariadb://124.5.184.247:3306/cafedb
+    url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}?characterEncoding=UTF-8
     driverClassName: org.mariadb.jdbc.Driver
     username: developer
     password: kostadev
