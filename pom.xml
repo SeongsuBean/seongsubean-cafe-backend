@@ -8,10 +8,10 @@
     <!--  lookup parent from repository  -->
   </parent>
   <groupId>com.oopsw</groupId>
-  <artifactId>user-service</artifactId>
+  <artifactId>seongsubean-cafe-backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>user-service</name>
-  <description>user-service</description>
+  <name>seongsubean-cafe-backend</name>
+  <description>seongsubean-cafe-backend</description>
   <url/>
   <licenses>
     <license/>
@@ -30,58 +30,6 @@
     <spring-cloud.version>2024.0.1</spring-cloud.version>
   </properties>
   <dependencies>
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-security</artifactId>-->
-<!--    </dependency>-->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>org.springframework.security</groupId> -->
-    <!-- 			<artifactId>spring-security-config</artifactId> -->
-    <!-- 		</dependency> -->
-    <!--  https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api  -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.jsonwebtoken</groupId> -->
-    <!-- 			<artifactId>jjwt-api</artifactId> -->
-    <!-- 			<version>0.12.6</version> -->
-    <!-- 		</dependency> -->
-    <!-- 		&lt;!&ndash; https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl &ndash;&gt; -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.jsonwebtoken</groupId> -->
-    <!-- 			<artifactId>jjwt-impl</artifactId> -->
-    <!-- 			<version>0.12.6</version> -->
-    <!-- 			<scope>runtime</scope> -->
-    <!-- 		</dependency> -->
-    <!-- 		&lt;!&ndash; https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson &ndash;&gt; -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.jsonwebtoken</groupId> -->
-    <!-- 			<artifactId>jjwt-jackson</artifactId> -->
-    <!-- 			<version>0.12.6</version> -->
-    <!-- 			<scope>runtime</scope> -->
-    <!-- 		</dependency> -->
-    <!-- 		&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator &ndash;&gt; -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>org.springframework.boot</groupId> -->
-    <!-- 			<artifactId>spring-boot-starter-actuator</artifactId> -->
-    <!-- 		</dependency> -->
-    <!-- 		&lt;!&ndash; https://mvnrepository.com/artifact/io.micrometer/micrometer-observation &ndash;&gt; -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.micrometer</groupId> -->
-    <!-- 			<artifactId>micrometer-observation</artifactId> -->
-    <!-- 		</dependency> -->
-    <!-- 		&lt;!&ndash; https://mvnrepository.com/artifact/io.micrometer/micrometer-tracing-bridge-brave &ndash;&gt; -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.micrometer</groupId> -->
-    <!-- 			<artifactId>micrometer-tracing-bridge-brave</artifactId> -->
-    <!-- 		</dependency> -->
-    <!--  https://mvnrepository.com/artifact/io.zipkin.reporter2/zipkin-reporter-brave  -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.zipkin.brave</groupId> -->
-    <!-- 			<artifactId>brave-instrumentation-spring-web</artifactId> -->
-    <!-- 		</dependency> -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>io.zipkin.reporter2</groupId> -->
-    <!-- 			<artifactId>zipkin-reporter-brave</artifactId> -->
-    <!-- 		</dependency> -->
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
@@ -114,10 +62,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.cloud</groupId>-->
-<!--      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
