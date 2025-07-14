@@ -150,18 +150,25 @@ public class CafeServiceImpl implements CafeService {
   }
 
   @Override
+  public List<ResponseCafe> getAllCafes() {
+    List<CafeRegisterEntity> cafeEntities = cafeRegisterRepository.findAll();
+    return cafeEntities.stream()
+            .map(entity -> new ModelMapper().map(entity, ResponseCafe.class))
+            .collect(Collectors.toList());
+  }
+
+  @Override
+  public void rejectRegisterRequest(Long registerCafeId) {
+    CafeRegisterEntity entity = cafeRegisterRepository.findById(registerCafeId)
+            .orElseThrow(() -> new EntityNotFoundException("해당 카페를 찾을 수 없습니다."));
+    cafeRegisterRepository.delete(entity);
+  }
+
+  @Override
   @Transactional //수정,변경 필수
   public void updateBusinessDay(Long cafeId) {
     CafeEntity cafe = cafeRepository.findById(cafeId)
             .orElseThrow(() -> new EntityNotFoundException("카페를 찾을 수 없습니다. ID: " + cafeId));
     cafe.setIsBusinessDay(!cafe.getIsBusinessDay()); //DB에 있는 값 기준으로 반전
-  }
-
-  @Override
-  public List<ResponseCafe> getAllCafes() {
-    List<CafeEntity> cafeEntities = cafeRepository.findAll();
-    return cafeEntities.stream()
-        .map(entity -> new ModelMapper().map(entity, ResponseCafe.class))
-        .collect(Collectors.toList());
   }
 }
