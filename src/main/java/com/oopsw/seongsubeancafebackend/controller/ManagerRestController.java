@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/manager")
+@RequestMapping("/api/manager/cafes")
 public class ManagerRestController {
 
   private final CafeService cafeService;
@@ -39,16 +39,16 @@ public class ManagerRestController {
 
 
   //회원 카페 승인 대기 목록 불러오기
-  @GetMapping("/cafes")
+  @GetMapping()
   public ResponseEntity<List<ResponseCafe>> getAllCafes() {
     List<ResponseCafe> cafes = cafeService.getAllCafes();
     return ResponseEntity.ok(cafes);
   }
 
   @DeleteMapping("/{cafeId}")
-  public ResponseEntity<Map<String, String>> deleteCafeAdmin(@PathVariable Long cafeId) {
-    cafeService.deleteById(cafeId);
-    return ResponseEntity.ok(Map.of("message", "Cafe deleted Successfully"));
+  public ResponseEntity<Map<String, String>> deleteCafeAdmin(@PathVariable Long registerCafeId) {
+    cafeService.rejectRegisterRequest(registerCafeId);
+    return ResponseEntity.ok(Map.of("message", "Cafe rejectRegisterRequest Successfully"));
   }
 
 }
