@@ -156,4 +156,12 @@ public class CafeServiceImpl implements CafeService {
             .orElseThrow(() -> new EntityNotFoundException("카페를 찾을 수 없습니다. ID: " + cafeId));
     cafe.setIsBusinessDay(!cafe.getIsBusinessDay()); //DB에 있는 값 기준으로 반전
   }
+
+  @Override
+  public List<ResponseCafe> getAllCafes() {
+    List<CafeEntity> cafeEntities = cafeRepository.findAll();
+    return cafeEntities.stream()
+        .map(entity -> new ModelMapper().map(entity, ResponseCafe.class))
+        .collect(Collectors.toList());
+  }
 }
