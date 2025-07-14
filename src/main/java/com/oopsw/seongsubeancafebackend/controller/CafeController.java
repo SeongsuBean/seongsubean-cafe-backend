@@ -27,19 +27,6 @@ public class CafeController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
   }
 
-  @PostMapping("/{cafeId}")
-  public ResponseEntity<Map<String, Long>> approveCafe(@PathVariable("cafeId") Long registerCafeId) {
-    Long approvedCafeId = cafeService.approveCafe(registerCafeId);
-    return ResponseEntity.ok(Map.of("approvedCafeId", approvedCafeId));
-  }
-
-  @PostMapping("/admin")
-  public ResponseEntity<Map<String, Long>> createCafeAdmin(@RequestBody RequestAdminCreateCafe requestAdminCreateCafe) {
-    CafeDTO cafeDTO = new ModelMapper().map(requestAdminCreateCafe, CafeDTO.class);
-    Long resultCafeId = cafeService.createCafeAdmin(cafeDTO);
-    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("cafeId", resultCafeId));
-  }
-
   @GetMapping("/{cafeId}")
   public ResponseEntity<ResponseCafe> getCafe(@PathVariable("cafeId") Long registerCafeId) {
     CafeDTO cafeDTO = cafeService.getCafeById(registerCafeId);
