@@ -46,7 +46,7 @@ public class ManagerRestController {
   }
 
   @DeleteMapping("/{cafeId}")
-  public ResponseEntity<Map<String, String>> deleteCafeAdmin(@PathVariable Long registerCafeId) {
+  public ResponseEntity<Map<String, String>> deleteCafeAdmin(@PathVariable("cafeId") Long registerCafeId) {
     cafeService.rejectRegisterRequest(registerCafeId);
     return ResponseEntity.ok(Map.of("message", "Cafe rejectRegisterRequest Successfully"));
   }
